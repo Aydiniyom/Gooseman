@@ -27,12 +27,6 @@ It provides a simple control panel for starting and stopping the client, viewing
 
 ---
 
-## Keep in mind
-
-- It uses `tailwindcss` and `jsdelivr` CDNs, which are as of now, still blocked in Iran. You can start the server just fine without those being loaded, it'll just miss the fanciness, aesthetics and the graph as well. Although, the styles will most likely be cached in your browser once you load the site once.
-
----
-
 ## Architecture
 
 Gooseman consists of two main parts:
