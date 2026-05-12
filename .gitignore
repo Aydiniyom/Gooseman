@@ -4,3 +4,4 @@ __pycache__
 goose-client*
 tailwindcss
 input.css
+/static/src
