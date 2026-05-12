@@ -2,3 +2,5 @@
 client_config.json
 __pycache__
 goose-client*
+tailwindcss
+input.css
