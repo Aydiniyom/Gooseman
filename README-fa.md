@@ -36,7 +36,7 @@
   - ارائه یک API ساده HTTP برای داشبورد
 
 - **فرانت‌اند (Single-page HTML)**
-  - ساخته‌شده با TailwindCSS از طریق CDN
+  - ساخته‌شده با TailwindCSS و Chart.js از JSDelivr
   - ارتباط با بک‌اند از طریق JavaScript Fetch API
   - نمایش زنده لاگ‌ها، آمار و کنترل‌ها
 
