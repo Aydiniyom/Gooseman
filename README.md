@@ -38,7 +38,7 @@ Gooseman consists of two main parts:
   - Exposes a simple HTTP API for the dashboard
 
 - **Frontend (Single-page HTML)**
-  - Built with TailwindCSS via CDN
+  - Built with TailwindCSS and JSDelivr's Chart.js
   - Connects to backend endpoints using JavaScript fetch API
   - Displays logs, stats, and controls in real time
 
