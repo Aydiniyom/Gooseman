@@ -4,7 +4,7 @@
 
 این پروژه یک پنل کنترل ساده برای استارت و استاپ کردن کلاینت، مشاهده لاگ‌های لحظه‌ای، دنبال کردن آمار مصرف، و ویرایش تنظیمات پراکسی SOCKS از طریق مرورگر فراهم می‌کند.
 
-<img width="919" height="1049" alt="داشبورد گوس‌من با tailwindcss و نمودار jsdelivr" src="https://github.com/user-attachments/assets/a02ad391-07a6-41fe-83a8-4aab7d62f9f8" />
+<img width="1030" height="1085" alt="image" src="https://github.com/user-attachments/assets/d4278d8c-b228-44e8-9999-bc7d2c683fbe" />
 
 ---
 
