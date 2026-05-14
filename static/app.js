@@ -526,6 +526,11 @@ async function updateCheck() {
     const r = await api("/check-updates", { method: "POST" })
     const d = await r.json()
 
+    if (!d.ok) {
+      showToast("Failed to check updates: " + d.error, "error")
+      return
+    }
+
     if (d.update_available) {
       $("updateBtn").classList.remove("hidden")
       $("updateBtn").innerText = `Update → ${d.latest_version}`

@@ -155,18 +155,26 @@ def get_latest_tag():
             "--sort=-v:refname"
         ).splitlines()
 
-        return tags[0] if tags else None
+        if not tags:
+            return {"ok": False, "error": "No tags found"}
 
-    except:
-        return None
+        return {"ok": True, "tag": tags[0]}
+
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
 
 def check_for_updates():
     try:
         current = get_app_version()
-        latest = get_latest_tag()
+        latest_result = get_latest_tag()
 
-        if not latest:
-            return {"ok": False}
+        if not latest_result.get("ok"):
+            return {
+                "ok": False,
+                "error": latest_result.get("error", "Failed to fetch tags")
+            }
+
+        latest = latest_result["tag"]
 
         return {
             "ok": True,
@@ -176,7 +184,10 @@ def check_for_updates():
         }
 
     except Exception as e:
-        return {"ok": False, "error": str(e)}
+        return {
+            "ok": False,
+            "error": str(e)
+        }
 
 
 def get_app_version():
