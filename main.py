@@ -290,6 +290,7 @@ def toggle(request: Request):
         process.terminate()
         ignored_errors.clear()
         runtime_error = None
+        latest_stats.clear()
         return {"running": False}
 
     logs = []

@@ -171,6 +171,26 @@ async function toggle(force = false) {
   const d = await (await api("/toggle")).json()
 
   running = d.running
+
+  if (!running) {
+
+    previousStats = {}
+
+    persistentDeltas = {
+      upload: 0,
+      download: 0,
+      today: 0,
+      session: 0
+    }
+
+    lastGraphValues = {
+      upload: null,
+      download: null,
+      session: null,
+      today: null
+    }
+  }
+
   sync()
 
   setTimeout(() => {
