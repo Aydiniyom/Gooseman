@@ -118,6 +118,13 @@ function sync() {
   const b = $("toggleBtn")
   const status = $("status")
 
+  const busy =
+    connectionState === "initializing" ||
+    connectionState === "stopping" ||
+    locked
+  
+  b.disabled = busy
+
   status.style.animation =
     connectionState === "running"
       ? "pulse 2s infinite"
@@ -255,12 +262,8 @@ async function toggle(force = false) {
     }
   }
 
+  locked = false
   sync()
-
-  setTimeout(() => {
-    locked = false
-    $("toggleBtn").disabled = false
-  }, 3000)
 }
 
 function closeStopPrompt() {
