@@ -15,6 +15,8 @@ let persistentDeltas = {
 let sessionPercentageMode = false
 let lastMeaningfulUpdate = Date.now()
 let latestVersion = null
+let connectionState = "stopped"
+let gooseReady = false
 
 function isMeaningfulChange(newStats, oldStats = {}) {
   const keys = ["upload_kb", "download_kb", "session_used", "today_used", "active"]
@@ -101,17 +103,59 @@ function lockDashboard() {
 }
 
 function sync() {
+
   const b = $("toggleBtn")
+  const status = $("status")
 
-  $("status").style.animation = running ? "pulse 2s infinite" : "none"
+  status.style.animation =
+    connectionState === "running"
+      ? "pulse 2s infinite"
+      : "none"
 
-  b.innerText = running ? "Stop Goose" : "Start Goose"
+  if (connectionState === "initializing") {
 
-  b.classList.toggle("bg-green-600", !running)
-  b.classList.toggle("bg-red-600", running)
+    status.innerText = "🟡 Initializing..."
+    b.innerText = "Starting..."
 
-  b.classList.toggle("btn-glow-green", !running)
-  b.classList.toggle("btn-glow-red", running)
+    b.classList.remove("bg-green-600")
+    b.classList.remove("btn-glow-green")
+
+    b.classList.add("bg-yellow-600")
+
+  } else if (connectionState === "stopping") {
+
+    status.innerText = "🟠 Stopping..."
+    b.innerText = "Stopping..."
+
+    b.classList.remove("bg-red-600")
+    b.classList.remove("btn-glow-red")
+
+    b.classList.add("bg-orange-600")
+
+  } else if (connectionState === "running") {
+
+    status.innerText = "🟢 Running"
+    b.innerText = "Stop Goose"
+
+    b.classList.remove("bg-green-600")
+    b.classList.remove("bg-orange-600")
+    b.classList.remove("bg-yellow-600")
+
+    b.classList.add("bg-red-600")
+    b.classList.add("btn-glow-red")
+
+  } else {
+
+    status.innerText = "🔴 Stopped"
+    b.innerText = "Start Goose"
+
+    b.classList.remove("bg-red-600")
+    b.classList.remove("bg-orange-600")
+    b.classList.remove("bg-yellow-600")
+
+    b.classList.add("bg-green-600")
+    b.classList.add("btn-glow-green")
+  }
 }
 
 function showError(msg) {
@@ -167,6 +211,15 @@ async function toggle(force = false) {
   locked = true
   $("toggleBtn").disabled = true
   $("logs").innerHTML = ""
+
+  if (!running) {
+    connectionState = "initializing"
+    gooseReady = false
+  } else {
+    connectionState = "stopping"
+  }
+
+  sync()
 
   const d = await (await api("/toggle")).json()
 
@@ -294,7 +347,6 @@ async function update() {
   running = !!s.running
   sync()
 
-  $("status").innerText = running ? "🟢 Running" : "🔴 Stopped"
   $("logBox").classList.toggle("log-stopped", !running)
 
   if (s.startup_error) showError(s.startup_error)
@@ -417,6 +469,33 @@ async function update() {
       ${x}
     </div>
   `).join("")
+
+  for (const line of l.logs) {
+
+    if (
+      line.includes("CLIENT INFO ready") ||
+      line.includes("local SOCKS5 is listening on")
+    ) {
+      gooseReady = true
+      break
+    }
+  }
+
+  if (!running) {
+
+    gooseReady = false
+    connectionState = "stopped"
+
+  } else if (gooseReady) {
+
+    connectionState = "running"
+
+  } else {
+
+    connectionState = "initializing"
+  }
+
+  sync()
 
   $("versionText").innerText = `Gooseman ${s.version}`
 }
