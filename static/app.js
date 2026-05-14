@@ -23,6 +23,18 @@ function isMeaningfulChange(newStats, oldStats = {}) {
   return keys.some(k => (newStats[k] ?? 0) !== (oldStats[k] ?? 0))
 }
 
+function formatLogLine(line) {
+  let level = "info"
+
+  const l = line.toLowerCase()
+
+  if (l.includes("error")) level = "error"
+  else if (l.includes("warn")) level = "warn"
+  else if (l.includes("ready")) level = "success"
+  
+  return { line, level }
+}
+
 function formatDelta(delta, isBytes=true) {
   if (!delta || delta <= 0) return ""
 
@@ -493,11 +505,15 @@ async function update() {
   }
 
   const l = await (await api("/logs")).json()
-  $("logs").innerHTML = l.logs.map(x => `
-    <div class="py-1 border-b border-white/5 break-all">
-      ${x}
-    </div>
-  `).join("")
+  $("logs").innerHTML = l.logs.map(x => {
+    const { line, level } = formatLogLine(x)
+
+    return `
+      <div class="log-line ${level}">
+        ${line}
+      </div>
+    `
+  }).join("")
 
   for (const line of l.logs) {
 
