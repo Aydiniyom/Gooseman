@@ -10,9 +10,9 @@
 
 <script src="/static/chart.js"></script>
 <link rel="stylesheet" href="/static/style.css" />
-<link rel="stylesheet" href="/static/tailwind.css" />
+<!-- <link rel="stylesheet" href="/static/tailwind.css" /> -->
 
-<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
@@ -143,6 +143,70 @@
     </div>
 
   </div>
+
+  <!-- SETTINGS OVERLAY -->
+
+  <div
+  id="settingsOverlay"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-xl p-4"
+>
+
+  <div class="glass w-full max-w-6xl mx-auto rounded-[2rem] p-6 sm:p-7">
+
+    <h1 class="text-2xl font-bold text-center mb-6 sm:mb-7">
+      Settings
+    </h1>
+
+    <!-- SOCKS -->
+    <div class="mb-5 border border-white/10 rounded-2xl p-4 glass no-hover">
+      <div class="text-sm text-gray-400 mb-2">SOCKS5 Config</div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <input id="socks_host" class="bg-gray-900 p-3 rounded-xl" placeholder="Host" />
+        <input id="socks_port" class="bg-gray-900 p-3 rounded-xl" placeholder="Port" />
+        <input id="socks_user" class="bg-gray-900 p-3 rounded-xl" placeholder="Username (optional)" />
+        <input id="socks_pass" class="bg-gray-900 p-3 rounded-xl" placeholder="Password (optional)" type="password" />
+      </div>
+    </div>
+
+    <!-- QUOTA -->
+    <div class="mb-5 border border-white/10 rounded-2xl p-4 glass no-hover">
+      <div class="text-sm text-gray-400 mb-2">Auto Stop Limit</div>
+
+      <input
+        id="quota_limit"
+        type="number"
+        min="0"
+        class="bg-gray-900 p-3 rounded-xl w-full"
+        placeholder="Quota limit"
+      />
+
+      <p class="text-xs text-gray-500 mt-2">
+        Set to 0 to disable auto-stop
+      </p>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="flex gap-3 mt-6">
+
+      <button
+        onclick="saveConfigFromSettings()"
+        class="btn flex-1 bg-blue-600 rounded-xl py-3 font-semibold"
+      >
+        Save
+      </button>
+
+      <button
+        onclick="closeSettings()"
+        class="btn flex-1 bg-white/10 rounded-xl py-3 font-semibold"
+      >
+        Close
+      </button>
+
+    </div>
+
+  </div>
+</div>
 
 <!-- TOAST -->
 <div id="toastContainer"
@@ -281,58 +345,16 @@
   <div class="glass p-4 mt-4 rounded-2xl">
 
     <div class="font-semibold mb-3">
-      ⚙️ SOCKS5 Config
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-3">
-
-      <input id="socks_host" placeholder="Host" class="bg-gray-900 p-3 rounded-xl" />
-      <input id="socks_port" placeholder="Port" class="bg-gray-900 p-3 rounded-xl" />
-      <input id="socks_user" placeholder="Username" class="bg-gray-900 p-3 rounded-xl" />
-      <input id="socks_pass" type="password" placeholder="Password" class="bg-gray-900 p-3 rounded-xl" />
-
+      ⚙️ Settings
     </div>
 
     <button
-      onclick="saveConfig()"
-      class="btn mt-4 bg-blue-600 px-4 py-3 rounded-xl w-full font-semibold"
+      onclick="openSettings()"
+      class="btn glass px-3 py-1.5 rounded-xl text-sm text-gray-300 hover:text-white transition w-full"
+      title="Settings"
     >
-      Save Configuration
+      Open Settings Panel
     </button>
-
-  </div>
-
-  <!-- QUOTA LIMIT -->
-
-  <div class="glass p-4 mt-4 rounded-2xl">
-
-    <div class="font-semibold mb-2">
-      🛑 Auto Stop Limit
-    </div>
-
-    <p class="text-sm text-gray-400 mb-4">
-      Automatically stop Goose when session quota reaches this value.
-      Set to 0 to disable.
-    </p>
-
-    <div class="flex gap-3 items-center">
-
-      <input
-        id="quota_limit"
-        type="number"
-        min="0"
-        placeholder="Quota limit"
-        class="bg-gray-900 p-3 rounded-xl"
-      />
-
-      <button
-        onclick="saveConfig()"
-        class="btn bg-red-600 px-4 py-3 rounded-xl font-semibold whitespace-nowrap"
-      >
-        Save
-      </button>
-
-    </div>
 
   </div>
 

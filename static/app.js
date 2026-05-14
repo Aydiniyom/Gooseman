@@ -309,9 +309,6 @@ async function saveConfig() {
         quota_limit: $("quota_limit").value
       })
     })
-
-    showToast("Configuration saved successfully", "success")
-
   } catch (e) {
     showToast("Failed to save configuration", "error")
   }
@@ -380,6 +377,22 @@ function closeUpdatePrompt() {
 async function confirmUpdate() {
   closeUpdatePrompt()
   await performUpdate()
+}
+
+function openSettings() {
+  $("settingsOverlay").classList.remove("hidden")
+  $("settingsOverlay").classList.add("flex")
+}
+
+function closeSettings() {
+  $("settingsOverlay").classList.remove("flex")
+  $("settingsOverlay").classList.add("hidden")
+}
+
+async function saveConfigFromSettings() {
+  await saveConfig()
+  showToast("Settings saved successfully", "success")
+  closeSettings()
 }
 
 async function update() {
