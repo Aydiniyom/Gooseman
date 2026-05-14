@@ -237,3 +237,12 @@ input:focus{
 .status-dot {
   box-shadow: 0 0 10px rgba(255,255,255,.2);
 }
+
+header, .fixed.top-0 {
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.no-hover:hover {
+  transform: none !important;
+  border-color: var(--border) !important;
+}
