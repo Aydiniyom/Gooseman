@@ -9,6 +9,7 @@ import re
 import subprocess
 import threading
 import sys
+import time
 
 app = FastAPI()
 
@@ -403,7 +404,13 @@ async def update_dashboard(request: Request):
         with open(os.path.join(BASE_DIR, ".restart"), "w") as f:
             f.write("restart")
 
-        os._exit(0)
+        def delayed_exit():
+            time.sleep(0.5)
+            os._exit(0)
+
+        threading.Thread(target=delayed_exit, daemon=True).start()
+
+        return {"ok": True}
 
     except Exception as e:
         return {
