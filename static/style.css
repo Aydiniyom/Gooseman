@@ -63,6 +63,12 @@ body::before{
   transition:.2s ease;
 }
 
+button,
+.btn,
+[role="button"]{
+  cursor:pointer;
+}
+
 .btn:hover{
   transform:translateY(-2px);
   opacity:.96;
