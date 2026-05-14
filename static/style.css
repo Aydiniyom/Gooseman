@@ -122,12 +122,6 @@ input:focus{
   border-radius:999px;
 }
 
-@keyframes pulse{
-  50%{
-    box-shadow:0 0 25px rgba(34,197,94,.28);
-  }
-}
-
 .btn-glow-green{
   box-shadow:
     0 0 18px rgba(34,197,94,.28),
@@ -206,4 +200,40 @@ input:focus{
 
 #checkUpdateBtn{
   backdrop-filter:blur(12px);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.3);
+  position: relative;
+}
+
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: inherit;
+  animation: pulseDot 1.6s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.status-dot {
+  box-shadow: 0 0 10px rgba(255,255,255,.2);
 }

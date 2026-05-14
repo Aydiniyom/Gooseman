@@ -10,9 +10,9 @@
 
 <script src="/static/chart.js"></script>
 <link rel="stylesheet" href="/static/style.css" />
-<link rel="stylesheet" href="/static/tailwind.css" />
+<!-- <link rel="stylesheet" href="/static/tailwind.css" /> -->
 
-<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
@@ -175,9 +175,10 @@
 
     <div
       id="status"
-      class="glass bg-gray-800/70 px-4 py-1.5 rounded-full text-sm"
+      class="glass bg-gray-800/70 px-4 py-1.5 rounded-full text-sm flex items-center gap-2"
     >
-      Loading...
+      <span id="statusDot" class="status-dot"></span>
+      <span id="statusText">Loading...</span>
     </div>
 
   </div>

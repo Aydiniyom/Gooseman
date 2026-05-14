@@ -102,6 +102,17 @@ function lockDashboard() {
   showToast("Dashboard locked", "success")
 }
 
+function setStatus(dotColor, text) {
+  const dot = $("statusDot")
+  const label = $("statusText")
+  const status = $("status")
+
+  dot.style.background = dotColor
+  label.innerText = text
+
+  dot.style.boxShadow = `0 0 10px ${dotColor}66`
+}
+
 function sync() {
 
   const b = $("toggleBtn")
@@ -114,7 +125,7 @@ function sync() {
 
   if (connectionState === "initializing") {
 
-    status.innerText = "🟡 Initializing..."
+    setStatus("#eab308", "Initializing...", true)
     b.innerText = "Starting..."
 
     b.classList.remove("bg-green-600")
@@ -124,7 +135,7 @@ function sync() {
 
   } else if (connectionState === "stopping") {
 
-    status.innerText = "🟠 Stopping..."
+    setStatus("#f97316", "Stopping...", false)
     b.innerText = "Stopping..."
 
     b.classList.remove("bg-red-600")
@@ -134,7 +145,7 @@ function sync() {
 
   } else if (connectionState === "running") {
 
-    status.innerText = "🟢 Running"
+    setStatus("#22c55e", "Running", true)
     b.innerText = "Stop Goose"
 
     b.classList.remove("bg-green-600")
@@ -146,7 +157,7 @@ function sync() {
 
   } else {
 
-    status.innerText = "🔴 Stopped"
+    setStatus("#ef4444", "Stopped", false)
     b.innerText = "Start Goose"
 
     b.classList.remove("bg-red-600")
