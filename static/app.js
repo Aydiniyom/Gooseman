@@ -341,6 +341,21 @@ async function performUpdate() {
   }
 }
 
+function openUpdatePrompt() {
+  $("updateOverlay").classList.remove("hidden")
+  $("updateOverlay").classList.add("flex")
+}
+
+function closeUpdatePrompt() {
+  $("updateOverlay").classList.remove("flex")
+  $("updateOverlay").classList.add("hidden")
+}
+
+async function confirmUpdate() {
+  closeUpdatePrompt()
+  await performUpdate()
+}
+
 async function update() {
   const s = await (await api("/status")).json()
 
