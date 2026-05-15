@@ -16,7 +16,6 @@ let sessionPercentageMode = false
 let lastMeaningfulUpdate = Date.now()
 let latestVersion = null
 let connectionState = "stopped"
-let gooseReady = false
 
 function isMeaningfulChange(newStats, oldStats = {}) {
   const keys = ["upload_kb", "download_kb", "session_used", "today_used", "active"]
@@ -244,7 +243,6 @@ async function toggle(force = false) {
 
   if (!running) {
     connectionState = "initializing"
-    gooseReady = false
   } else {
     connectionState = "stopping"
   }
@@ -530,33 +528,20 @@ async function update() {
 
   if (!running) {
 
-    gooseReady = false
-    connectionState = "stopped"
+  connectionState = "stopped"
+
+  } else if (s.ready) {
+
+    connectionState = "running"
 
   } else {
 
-    // only detect readiness while still initializing
-    if (!gooseReady) {
-
-      const readyFound = l.logs.some(line =>
-        line.includes("CLIENT INFO ready") ||
-        line.includes("local SOCKS5 is listening on")
-      )
-
-      if (readyFound)
-        gooseReady = true
-    }
-
-    connectionState =
-      gooseReady
-        ? "running"
-        : "initializing"
+    connectionState = "initializing"
   }
+    sync()
 
-  sync()
-
-  $("versionText").innerText = `Gooseman ${s.version}`
-}
+    $("versionText").innerText = `Gooseman ${s.version}`
+  }
 
 async function updateCheck() {
   const btn = $("checkUpdateBtn")

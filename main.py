@@ -48,6 +48,7 @@ BINARY_PATH = get_binary_path()
 process = None
 logs = []
 latest_stats = {}
+goose_ready = False
 
 startup_error = None
 runtime_error = None
@@ -211,11 +212,14 @@ def safe_int(value, default=0):
 # =========================
 
 def reader():
-    global runtime_error
+    global runtime_error, goose_ready
 
     for line in process.stdout:
         line = line.strip()
         logs.append(line)
+
+        if "ready" in line.lower():
+            goose_ready = True
 
         if "ERROR" in line and line not in ignored_errors:
             runtime_error = line
@@ -293,7 +297,7 @@ async def ignore_error(request: Request):
 @app.get("/toggle")
 def toggle(request: Request):
 
-    global process, logs, latest_stats, runtime_error, ignored_errors
+    global process, logs, latest_stats, runtime_error, ignored_errors, goose_ready
 
     if not require_auth(request):
         return unauthorized()
@@ -303,6 +307,7 @@ def toggle(request: Request):
         ignored_errors.clear()
         runtime_error = None
         latest_stats.clear()
+        goose_ready = False
         return {"running": False}
 
     logs = []
@@ -332,6 +337,7 @@ def status(request: Request):
 
     return {
         "running": process and process.poll() is None,
+        "ready": goose_ready,
         "stats": latest_stats,
         "startup_error": startup_error,
         "runtime_error": runtime_error,
