@@ -6,7 +6,7 @@ Gooseman is a lightweight web dashboard for managing and monitoring a running Go
 
 It provides a simple control panel for starting and stopping the client, viewing real-time logs, tracking usage statistics, and editing SOCKS proxy configuration through a browser interface.
 
-<img width="919" height="1049" alt="Gooseman dashboard with tailwindcss and jsdelivr chart loaded" src="https://github.com/user-attachments/assets/a02ad391-07a6-41fe-83a8-4aab7d62f9f8" />
+<img width="1030" height="1085" alt="image" src="https://github.com/user-attachments/assets/d4278d8c-b228-44e8-9999-bc7d2c683fbe" />
 
 ---
 
