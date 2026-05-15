@@ -528,29 +528,29 @@ async function update() {
     `
   }).join("")
 
-  for (const line of l.logs) {
-
-    if (
-      line.includes("CLIENT INFO ready") ||
-      line.includes("local SOCKS5 is listening on")
-    ) {
-      gooseReady = true
-      break
-    }
-  }
-
   if (!running) {
 
     gooseReady = false
     connectionState = "stopped"
 
-  } else if (gooseReady) {
-
-    connectionState = "running"
-
   } else {
 
-    connectionState = "initializing"
+    // only detect readiness while still initializing
+    if (!gooseReady) {
+
+      const readyFound = l.logs.some(line =>
+        line.includes("CLIENT INFO ready") ||
+        line.includes("local SOCKS5 is listening on")
+      )
+
+      if (readyFound)
+        gooseReady = true
+    }
+
+    connectionState =
+      gooseReady
+        ? "running"
+        : "initializing"
   }
 
   sync()
