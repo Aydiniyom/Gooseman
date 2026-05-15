@@ -641,4 +641,11 @@ setInterval(() => {
 }, 1000)
 
 init()
+
+$("loginPassword").addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    login()
+  }
+})
+
 $("loginOverlay").style.display = "flex"
